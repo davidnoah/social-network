@@ -14,7 +14,7 @@ Approach
 -------
 Dictionary: Hash map to ensure O(1) lookup.
 
-I knew that the first order on the agenda was to figure out how I would handle the dictionary. I ended up choosing a hash map to represent the dictionary for a few reasons. One, it would prevent us from having to iterate through the entire dictionary to check if a word is valid. Two, it could provide a good location to implement future pre-processing optimizations. One downside is the space required to hold a dictionary of 178,692 words in memory, but thats an easy tradeoff to make since the dictionary isn't getting larger and I would have taken a massive speed hit if I had to iterate through the entire dictionary for each "friend".
+I knew that the first order on the agenda was to figure out how I would handle the dictionary. I ended up choosing a hash map to represent the dictionary for a few reasons. One, it would prevent us from having to iterate through the entire dictionary to check if a word is valid. Two, it could provide a good location to implement future pre-processing optimizations. Three, I can use it to keep track of words I have already seen when constructing the network by setting each value to a boolean. One downside is the space required to hold a dictionary of 178,692 words in memory, but thats an easy tradeoff to make since the dictionary isn't getting larger and I would have taken a massive speed hit if I had to iterate through the entire dictionary for each "friend".
 
 Algorithm: Breadth First Search/Queue
 
