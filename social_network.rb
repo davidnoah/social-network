@@ -5,7 +5,8 @@ class Social_Network
   attr_accessor :count
 
   def initialize(dictionary)
-    @dictionary = build_dictionary(dictionary)
+    # Type check to account for a .txt file or an Array
+    @dictionary = dictionary.is_a?(String) ? build_dictionary(dictionary) : dictionary
     @alpha = ("A".."Z").to_a
   end
 
