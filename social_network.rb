@@ -10,7 +10,9 @@ class Social_Network
   end
 
   # The workhorse of our program. Size takes in any word and returns the size of
-  # it's social network.
+  # it's social network. Implements Breadth First Search with a queue. Words are
+  # assessed as they are shifted off and "friends" are pushed to the end of the
+  # queue once they are found.
   def size(word)
     @words_queue = [word]
     @seen = Set.new.add(word)
@@ -20,7 +22,8 @@ class Social_Network
     @seen.size
   end
 
-  # Assesses single character edits (insertions, deletions, substitutions)
+  # Assesses single character edits (insertions, deletions, substitutions) for
+  # each index
   def count_friends(current_word)
     current_word.length.times do |idx|
       check_deletion(idx, current_word)
@@ -29,12 +32,17 @@ class Social_Network
     end
   end
 
+  # Builds a new word with the character at our current index removed and checks
+  # for vailidity within the dictionary
   def check_deletion(index, current_word)
     length = current_word.length
     temp = current_word[0...index] + current_word[(index + 1)...length]
     check_dictionary(temp)
   end
 
+  # Builds a new word with each letter of the alphabet added to the left of the
+  # character at our current index except for the last letter in our word. In this
+  # case we assess both left and right positions.
   def check_addition(index, current_word)
     length = current_word.length
     alpha.each do |letter|
@@ -48,6 +56,8 @@ class Social_Network
     end
   end
 
+  # Substitutes our current letter with every letter in the alphabet and checks
+  # for validity within the dictionary
   def check_substitution(index, current_word)
     length = current_word.length
     alpha.each do |letter|
@@ -56,8 +66,8 @@ class Social_Network
     end
   end
 
-  # Checks if our curret word is within the dictionary and adds the word to our
-  # queue and seen words hash
+  # Checks if our current word is within the dictionary and adds the word to our
+  # queue and seen words hashmap
   def check_dictionary(temp)
     if dictionary.include?(temp) && !@seen.include?(temp)
       @words_queue << temp
