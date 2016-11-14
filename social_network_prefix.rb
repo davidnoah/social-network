@@ -21,11 +21,10 @@ class Social_Network
 
   def count_friends(current_word)
     current_word.length.times do |idx|
-      unless @prefixes[current_word[0...idx]] == 1
-        check_deletion(idx, current_word)
-        check_addition(idx, current_word)
-        check_substitution(idx, current_word)
-      end
+      break if @prefixes[current_word[0...idx]] == 1
+      check_deletion(idx, current_word)
+      check_addition(idx, current_word)
+      check_substitution(idx, current_word)
     end
   end
 
@@ -82,4 +81,4 @@ class Social_Network
 
 end
 
-p Social_Network.new('dict/dictionary.txt').size("LISTY")
+p Social_Network.new('dict/quarter_dictionary.txt').size("LISTY")

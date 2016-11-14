@@ -70,5 +70,4 @@ class Social_Network
 
 end
 
-machine = Social_Network.new('dict/dictionary.txt')
-p machine.size("LISTY")
+p Social_Network.new('dict/quarter_dictionary.txt').size("LISTY")
