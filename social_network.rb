@@ -9,6 +9,8 @@ class Social_Network
     @alpha = ("A".."Z").to_a
   end
 
+  # The workhorse of our program. Size takes in any word and returns the size of
+  # it's social network.
   def size(word)
     @words_queue = [word]
     @seen = Set.new.add(word)
@@ -18,6 +20,7 @@ class Social_Network
     @seen.size
   end
 
+  # Assesses single character edits (insertions, deletions, substitutions)
   def count_friends(current_word)
     current_word.length.times do |idx|
       check_deletion(idx, current_word)
@@ -53,6 +56,8 @@ class Social_Network
     end
   end
 
+  # Checks if our curret word is within the dictionary and adds the word to our
+  # queue and seen words hash
   def check_dictionary(temp)
     if dictionary.include?(temp) && !@seen.include?(temp)
       @words_queue << temp
@@ -60,6 +65,7 @@ class Social_Network
     end
   end
 
+  # Initializes a new set and constructs the dictionary to ensure constant lookup
   def build_dictionary(dictionary)
     set = Set.new
     File.readlines(dictionary).each do |line|
@@ -70,4 +76,4 @@ class Social_Network
 
 end
 
-p Social_Network.new('dict/quarter_dictionary.txt').size("LISTY")
+p Social_Network.new('dict/dictionary.txt').size("LISTY")
