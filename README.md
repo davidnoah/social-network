@@ -31,11 +31,14 @@ Complexity
   - Time: 0(n), where n is the number of words in the dictionary.
   - Space: 0(n), where n is the number of words in the dictionary.
 
-  We can make the assumption that the average length of an English word is 5 characters. Our best case scenario states that there are absolutely no friends for in the dictionary and out network has a size of 1. With our above assumption, best case, our algorithm is a constant operation, O(1). The best case scenario is arbitrary and we are more concerned with our worst case scenario. In a worst case scenario, our social network will be equivalent to the size of our dictionary.
+  We can make the assumption that the average length of an English word is 5 characters. Our best case scenario states that there are absolutely no friends for our tested word in the dictionary and our network has a size of 1. With our above assumption, best case, our algorithm is a constant operation, O(1). The best case scenario is arbitrary and we are more concerned with our worst case scenario. In a worst case scenario, our social network will be equivalent to the size of our dictionary.
 
   Average length: 5
+
   Checking deletions: length of 5 = 5 operations
+
   Checking additions: 6 spaces * 26 letters = 156 operations
+  
   Checking substitutions: length of 5 * 26 letters = 140 operations
 
   O(301n) which can be reduced to O(n)
