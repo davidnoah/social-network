@@ -6,8 +6,9 @@ class Social_Network
 
   def initialize(dictionary)
     # Type check to account for a .txt file or an Array
-    @dictionary = dictionary.is_a?(String) ? build_dictionary(dictionary) : dictionary
+    @dictionary = build_dictionary(dictionary)
     @alpha = ("A".."Z").to_a
+    @count = 1
   end
 
   # The workhorse of our program. Size takes in any word and returns the size of
@@ -15,12 +16,19 @@ class Social_Network
   # assessed as they are shifted off and "friends" are pushed to the end of the
   # queue once they are found.
   def size(word)
+    word = type_check(word)
     @words_queue = [word]
-    @seen = Set.new.add(word)
+    dictionary[word] = true
     until @words_queue.empty?
       count_friends(@words_queue.shift)
     end
-    @seen.size
+    @count
+  end
+
+  # Ensures the word only contains letters, has a length, and is all uppercase.
+  def type_check(word)
+    raise "Your word must only contain letters" unless /^[a-zA-Z]+$/ === word
+    word.upcase
   end
 
   # Assesses single character edits (insertions, deletions, substitutions) for
@@ -67,22 +75,33 @@ class Social_Network
     end
   end
 
-  # Checks if our current word is within the dictionary and adds the word to our
-  # queue and seen words hashmap
+  # Checks if our current word is within the dictionary and hasn't been seen. If
+  # so, add the word to our queue, mark it as seen in the dictionary, and increment
+  # our count by 1.
   def check_dictionary(temp)
-    if dictionary.include?(temp) && !@seen.include?(temp)
+    if dictionary.has_key?(temp) && dictionary[temp] == false
       @words_queue << temp
-      @seen.add(temp)
+      dictionary[temp] = true
+      @count += 1
     end
   end
 
-  # Initializes a new set and constructs the dictionary to ensure constant lookup
+  # Initializes a hash map and constructs the dictionary to ensure constant
+  # lookup. Type checks the input to ensure it's a .txt file or an array
   def build_dictionary(dictionary)
-    set = Set.new
-    File.readlines(dictionary).each do |line|
-      set.add(line.chomp)
+    hash = Hash.new
+    if dictionary.is_a?(String)
+      File.readlines(dictionary).each do |line|
+        hash[line.chomp.upcase] = false
+      end
+    elsif dictionary.is_a?(Array)
+      dictionary.each do |line|
+        hash[line.chomp.upcase] = false
+      end
+    else
+      raise "Your dictionary must be a .txt file or an array"
     end
-    set
+    hash
   end
 
 end

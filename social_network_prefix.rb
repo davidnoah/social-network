@@ -1,23 +1,24 @@
 require 'set'
 
 class Social_Network
-  attr_reader :word, :dictionary, :alpha, :letters
-  attr_accessor :count
+  attr_reader :alpha
+  attr_accessor :count, :dictionary
 
   def initialize(dictionary)
     # @prefixes = Hash.new(0)
-    @letters = Hash.new
+    # @letters = Hash.new
     @dictionary = build_dictionary(dictionary)
-    # @alpha = ("A".."Z").to_a
+    @alpha = ("A".."Z").to_a
+    @count = 1
   end
 
   def size(word)
     @words_queue = [word]
-    @seen = Set.new.add(word)
+    dictionary[word] = true
     until @words_queue.empty?
       count_friends(@words_queue.shift)
     end
-    @seen.size
+    @count
   end
 
   def count_friends(current_word)
@@ -37,7 +38,7 @@ class Social_Network
 
   def check_addition(index, current_word)
     length = current_word.length
-    @letters[index].each do |letter|
+    alpha.each do |letter|
       temp = current_word[0, index] + letter + current_word[index...length]
       check_dictionary(temp)
 
@@ -50,40 +51,42 @@ class Social_Network
 
   def check_substitution(index, current_word)
     length = current_word.length
-    @letters[index].each do |letter|
+    alpha.each do |letter|
       temp = current_word[0...index] + letter + current_word[(index + 1)...length]
       check_dictionary(temp)
     end
   end
 
   def check_dictionary(temp)
-    if dictionary.include?(temp) && !@seen.include?(temp)
+    if dictionary.has_key?(temp) && dictionary[temp] == false
       @words_queue << temp
-      @seen.add(temp)
+      dictionary[temp] = true
+      @count += 1
     end
   end
 
   def build_dictionary(dictionary)
-    set = Set.new
+    hash = {}
     File.readlines(dictionary).each do |line|
       word = line.chomp
-      add_prefixes(word)
-      set.add(word)
+      # add_prefixes(word)
+      hash[word] = false
     end
-    set
+    hash
   end
 
-  def add_prefixes(word)
-    word.length.times do |index|
-      # @prefixes[word[0..index]] += 1
-      if @letters[index]
-        @letters[index].add(word[index])
-      else
-        @letters[index] = Set.new.add(word[index])
-      end
-    end
-  end
+  # def add_prefixes(word)
+  #   word.length.times do |index|
+  #     # @prefixes[word[0..index]] += 1
+  #     if @letters[index]
+  #       @letters[index].add(word[index])
+  #     else
+  #       @letters[index] = Set.new.add(word[index])
+  #     end
+  #   end
+  # end
 
 end
 
-p Social_Network.new('dict/dictionary.txt').size("LISTY")
+machine = Social_Network.new('dict/dictionary.txt')
+p machine.size("LISTY")
