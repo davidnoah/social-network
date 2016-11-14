@@ -1,13 +1,14 @@
 require 'set'
 
 class Social_Network
-  attr_reader :word, :dictionary, :alpha
+  attr_reader :word, :dictionary, :alpha, :letters
   attr_accessor :count
 
   def initialize(dictionary)
-    @prefixes = Hash.new(0)
+    # @prefixes = Hash.new(0)
+    @letters = Hash.new
     @dictionary = build_dictionary(dictionary)
-    @alpha = ("A".."Z").to_a
+    # @alpha = ("A".."Z").to_a
   end
 
   def size(word)
@@ -21,7 +22,7 @@ class Social_Network
 
   def count_friends(current_word)
     current_word.length.times do |idx|
-      break if @prefixes[current_word[0...idx]] == 1
+      # break if @prefixes[current_word[0...idx]] == 1
       check_deletion(idx, current_word)
       check_addition(idx, current_word)
       check_substitution(idx, current_word)
@@ -36,7 +37,7 @@ class Social_Network
 
   def check_addition(index, current_word)
     length = current_word.length
-    alpha.each do |letter|
+    @letters[index].each do |letter|
       temp = current_word[0, index] + letter + current_word[index...length]
       check_dictionary(temp)
 
@@ -49,7 +50,7 @@ class Social_Network
 
   def check_substitution(index, current_word)
     length = current_word.length
-    alpha.each do |letter|
+    @letters[index].each do |letter|
       temp = current_word[0...index] + letter + current_word[(index + 1)...length]
       check_dictionary(temp)
     end
@@ -69,16 +70,20 @@ class Social_Network
       add_prefixes(word)
       set.add(word)
     end
-
     set
   end
 
   def add_prefixes(word)
     word.length.times do |index|
-      @prefixes[word[0..index]] += 1
+      # @prefixes[word[0..index]] += 1
+      if @letters[index]
+        @letters[index].add(word[index])
+      else
+        @letters[index] = Set.new.add(word[index])
+      end
     end
   end
 
 end
 
-p Social_Network.new('dict/quarter_dictionary.txt').size("LISTY")
+p Social_Network.new('dict/dictionary.txt').size("LISTY")
