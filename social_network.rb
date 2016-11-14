@@ -2,66 +2,64 @@ require 'set'
 
 class Social_Network
   attr_reader :length, :word, :dictionary, :alpha
+  attr_accessor :count
 
   def initialize(word, dictionary)
     @word = word
     @dictionary = build_dictionary(dictionary)
     @length = word.length
     @alpha = ("A".."Z").to_a
+    @count = 0
+    @words_queue = [word]
+    @seen = Set.new.add(word)
   end
 
   def size
-
+    until @words_queue.empty?
+      p @words_queue
+      check_count(@words_queue.shift)
+    end
+    @count
   end
 
-  def count_check
-    count = 0
-
-    length.times do |idx|
-
+  def check_count(current_word)
+    current_word.length.times do |idx|
+      check_deletion(idx, current_word)
+      check_addition(idx, current_word)
+      check_substitution(idx, current_word)
     end
   end
 
-  def check_deletions
-    count = 0
+  def check_deletion(index, current_word)
+      temp = current_word[0...index] << current_word[(index + 1)...length]
+      check_dictionary(temp)
+  end
 
-    length.times do |idx|
-      temp = word[0...idx] << word[(idx + 1)...length]
-      if dictionary.include?(temp)
-        count += 1
+  def check_addition(index, current_word)
+    alpha.each do |letter|
+      temp = current_word[0, index] + letter + current_word[index...length]
+      check_dictionary(temp)
+
+      if index == (length - 1)
+        temp = current_word + letter
+        check_dictionary(temp)
       end
     end
-
-    count
   end
 
-  def check_additions
-    count = 0
-
-    length.times do |idx|
-      alpha.each do |letter|
-        if idx == 0
-          temp = letter + word
-        else
-          temp = word[0..idx] + letter + word[idx...length]
-        end
-        if dictionary.include?(temp)
-          count += 1
-        end
-
-        if idx == (length - 1)
-          temp = word + letter
-          if dictionary.include?(temp)
-            count += 1
-          end
-        end
-      end
+  def check_substitution(index, current_word)
+    alpha.each do |letter|
+      temp = current_word[0...index] << letter << current_word[(index + 1)...length]
+      check_dictionary(temp)
     end
-
-    count
   end
 
-  def check_substitutions
+  def check_dictionary(temp)
+    if dictionary.include?(temp) && !@seen.include?(temp)
+      @words_queue << temp
+      @count += 1
+      @seen.add(temp)
+    end
   end
 
   def build_dictionary(dictionary)
@@ -74,4 +72,4 @@ class Social_Network
 
 end
 
-p Social_Network.new('LISTY', 'dict/very_small_test_dictionary.txt').check_additions
+p Social_Network.new('LISTY', 'dict/very_small_test_dictionary.txt').size
