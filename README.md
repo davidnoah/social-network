@@ -1,12 +1,6 @@
-Note: We do not have any openings for internship-level positions at this time.
+## Social Network for LISTY -- David Noah
 
-Apartment List Coding Challenge
-==========================
-
-Problem
--------
-
-Your task is to count the size of the social network of the word LISTY in the dictionary provided.
+This program counts the size of the social network of the word LISTY in the dictionary provided.
 
 We define two words as being friends if the edit distance between them is 1. For this problem, we will
 be using Levenshtein distance (http://en.wikipedia.org/wiki/Levenshtein_distance) as our edit distance.
