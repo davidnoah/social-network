@@ -8,7 +8,6 @@ class Social_Network
     @words_queue = [word]
     @dictionary = build_dictionary(dictionary)
     @alpha = ("A".."Z").to_a
-    @count = 0
     @seen = Set.new.add(word)
   end
 
@@ -16,7 +15,7 @@ class Social_Network
     until @words_queue.empty?
       count_friends(@words_queue.shift)
     end
-    @count
+    @seen.size
   end
 
   def count_friends(current_word)
@@ -57,7 +56,6 @@ class Social_Network
   def check_dictionary(temp)
     if dictionary.include?(temp) && !@seen.include?(temp)
       @words_queue << temp
-      @count += 1
       @seen.add(temp)
     end
   end
