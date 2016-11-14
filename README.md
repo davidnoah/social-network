@@ -26,12 +26,11 @@ Algorithm: Breadth First Search/Queue
 Conceptually, the social network can be represented by the abstract data type: tree. Our root node is the initial word, in this case, "LISTY". It's children are all of it's friends. In order to count all of these friends, we must traverse this tree. I chose a Breadth First Search traversal because I knew that we would be essentially constructing the tree as we move through it. The data structure: queue maintains order and allows us to remember which node we should assess next. (First In First Out)
 
   Assessing a Word:
-    ```
-    Shift the oldest word off of the queue.
-    Find and count all the words with an edit distance of 1 (insertions, deletions, additions).
-    Add each friend to the end of the queue.
-    Repeat until queue is empty.
-    ```
+    1. Shift the oldest word off of the queue.
+    2. Find and count all the words with an edit distance of 1 (insertions, deletions, additions).
+    3. Add each friend to the end of the queue.
+    4. Repeat until queue is empty.
+
 
 Complexity
 -------
@@ -40,11 +39,13 @@ Complexity
 
   We can make the assumption that the average length of an English word is 5 characters. Our best case scenario states that there are absolutely no friends for our tested word in the dictionary and our network has a size of 1. With our above assumption, best case, our algorithm is a constant operation, O(1). The best case scenario is arbitrary and we are more concerned with our worst case scenario. In a worst case scenario, our social network will be equivalent to the size of our dictionary.
 
-  - Average length: 5
+  Average length: 5
+  ```
   - Checking deletions: length of 5 = 5 operations
   - Checking additions: 6 spaces * 26 letters = 156 operations
   - Checking substitutions: length of 5 * 26 letters = 140 operations
   - 5 + 156 + 140 = 301 constant operations
+  ```
 
   O(301n) which can be reduced to O(n)
 
