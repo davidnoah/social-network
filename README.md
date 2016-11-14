@@ -20,8 +20,8 @@ Algorithm: Breadth First Search/Queue
 
 Conceptually, the social network can be represented by the abstract data type, Tree. Our root node is the initial word, in this case, "LISTY". It's children are all of it's friends. In order to count all of these friends, we must traverse this tree. I chose a Breadth First Search traversal because I knew that we would be essentially constructing the tree as we move through it. The data structure, Queue maintains order and allows us to remember which node we should assess next. (First In First Out)
 
-  Assessing a word:
-  
+  Assessing a Word
+
     - Shift the oldest word off of the queue.
     - Find and count all the words with an edit distance of 1 (insertions, deletions, additions)
     - Add each friend to the end of the queue
