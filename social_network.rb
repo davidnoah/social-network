@@ -16,12 +16,15 @@ class Social_Network
   # assessed as they are shifted off and "friends" are pushed to the end of the
   # queue once they are found.
   def size(word)
+    starttime = Time.now
     word = type_check(word)
     @words_queue = [word]
     dictionary[word] = true
     until @words_queue.empty?
       count_friends(@words_queue.shift)
     end
+    endtime = Time.now
+    p "Runtime: #{endtime - starttime} seconds"
     @count
   end
 

@@ -13,17 +13,20 @@ class Social_Network
   end
 
   def size(word)
+    starttime = Time.now
     @words_queue = [word]
     dictionary[word] = true
     until @words_queue.empty?
       count_friends(@words_queue.shift)
     end
+    endtime = Time.now
+    p "Runtime: #{endtime - starttime} seconds"
     @count
   end
 
   def count_friends(current_word)
     current_word.length.times do |idx|
-      # break if @prefixes[current_word[0...idx]] == 1
+      break if @prefixes[current_word[0...idx]] == 1
       check_deletion(idx, current_word)
       check_addition(idx, current_word)
       check_substitution(idx, current_word)
@@ -72,7 +75,6 @@ class Social_Network
       add_prefixes(word)
       hash[word] = false
     end
-    p @prefixes
     hash
   end
 
@@ -84,5 +86,5 @@ class Social_Network
 
 end
 
-machine = Social_Network.new('dict/very_small_test_dictionary.txt')
+machine = Social_Network.new('dict/dictionary.txt')
 p machine.size("LISTY")
