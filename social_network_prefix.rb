@@ -5,7 +5,7 @@ class Social_Network
   attr_accessor :count, :dictionary
 
   def initialize(dictionary)
-    # @prefixes = Hash.new(0)
+    @prefixes = Hash.new(0)
     # @letters = Hash.new
     @dictionary = build_dictionary(dictionary)
     @alpha = ("A".."Z").to_a
@@ -69,24 +69,20 @@ class Social_Network
     hash = {}
     File.readlines(dictionary).each do |line|
       word = line.chomp
-      # add_prefixes(word)
+      add_prefixes(word)
       hash[word] = false
     end
+    p @prefixes
     hash
   end
 
-  # def add_prefixes(word)
-  #   word.length.times do |index|
-  #     # @prefixes[word[0..index]] += 1
-  #     if @letters[index]
-  #       @letters[index].add(word[index])
-  #     else
-  #       @letters[index] = Set.new.add(word[index])
-  #     end
-  #   end
-  # end
+  def add_prefixes(word)
+    word.length.times do |index|
+      @prefixes[word[0..index]] += 1
+    end
+  end
 
 end
 
-machine = Social_Network.new('dict/dictionary.txt')
+machine = Social_Network.new('dict/very_small_test_dictionary.txt')
 p machine.size("LISTY")

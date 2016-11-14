@@ -38,8 +38,19 @@ Complexity
   Checking deletions: length of 5 = 5 operations
   Checking additions: 6 spaces * 26 letters = 156 operations
   Checking substitutions: length of 5 * 26 letters = 140 operations
+  5 + 156 + 140 = 301 constant operations
 
   O(301n) which can be reduced to O(n)
 
 Optimizations
 -------
+After further assessment of my algorithm, I came up with two optimizations that I thought would help. Both would force me to sacrifice more space and require more time to initially process the dictionary.
+
+- Prefixes
+  My first idea was to crate a hash of all the prefixes within the dictionary paired with the number of words that contain that prefix. For example, if we used out "very_small_test_dictionary.txt", our prefixes hash would look like:
+
+  ```Ruby
+  @prefixes = {"F"=>2, "FI"=>2, "FIS"=>2, "FIST"=>2, "FISTS"=>1, "L"=>10, "LI"=>9, "LIS"=>2, "LIST"=>2, "LISTS"=>1, "LISTY"=>1, "LIT"=>7, "LITA"=>4, "LITAI"=>1, "LITAN"=>2, "LITANI"=>1, "LITANIE"=>1, "LITANIES"=>1, "LITANY"=>1, "LITAS"=>1, "LITC"=>2, "LITCH"=>2, "LITCHI"=>2, "LITCHIS"=>1, "LU"=>1, "LUS"=>1, "LUST"=>1, "LUSTY"=>1}
+  ```
+
+  The idea was that if I came across a word with a prefix value of 1, I knew that I could stop assessing that particular word because there were no other possible combinations to assess.
