@@ -13,15 +13,16 @@ Run the tests too! 'rspec spec/social_network_spec.rb'
 
 Approach
 -------
-**Dictionary: Hash map to ensure O(1) lookup.**
+**Dictionary: Set to ensure O(1) lookup.**
 
-I knew that the first order on the agenda was to figure out how I would handle the dictionary. I ended up choosing a ruby hash to represent the dictionary for a few reasons:
+I knew that the first order on the agenda was to figure out how I would handle the dictionary. I ended up choosing a set to represent the dictionary for a few reasons:
 
 1. It would prevent us from having to iterate through the entire dictionary to check if a word is valid.
-2. I can use it to keep track of words I have already seen when constructing the network by setting each value to a boolean.
-3. It could provide a good location to implement future pre-processing optimizations.  
+2. It could provide a good location to implement future pre-processing optimizations.  
 
 One downside is the space required to hold a dictionary of 178,692 words in memory, but thats an easy tradeoff to make since the dictionary isn't getting larger and I would have taken a massive speed hit if I had to iterate through the entire dictionary for each "friend".
+
+Interesting caveat: I originally implemented the dictionary using a ruby hash with default boolean values. Although it was nice to not have to create @seen = Set.new to keep track of the words I've already seen, I would have had to rebuild the dictionary or create a new instance every time I wanted to assess a new word.
 
 **Algorithm: Breadth First Traversal/Queue**
 
