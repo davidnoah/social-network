@@ -109,19 +109,6 @@ class Social_Network
 
 end
 
-p Social_Network.new('dict/dictionary.txt').size("LISTY")
-# p "The size of the social network of #{word} is #{size}"
-
-# "Runtime: 20.614713 seconds"
-# "The size of the social network of LISTY is 51710"
-# [Finished in 20.986s]
-
-# Half Dictionary
-# "Runtime: 7.982526 seconds"
-# "The size of the social network of LISTY is 22741"
-# [Finished in 8.215s]
-
-# Quarter Dict
-# "Runtime: 3.54621 seconds"
-# "The size of the social network of LISTY is 11008"
-# [Finished in 3.722s]
+word = "LISTY"
+size = Social_Network.new('dict/dictionary.txt').size(word)
+p "The size of the social network of #{word} is #{size}"
