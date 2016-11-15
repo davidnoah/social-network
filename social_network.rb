@@ -8,7 +8,6 @@ class Social_Network
     # Type check to account for a .txt file or an Array
     @dictionary = build_dictionary(dictionary)
     @alpha = ("A".."Z").to_a
-    @count = 1
   end
 
   # The workhorse of our program. Size takes in any word and returns the size of
@@ -16,6 +15,7 @@ class Social_Network
   # assessed as they are shifted off and "friends" are pushed to the end of the
   # queue once they are found.
   def size(word)
+    @count = 1
     starttime = Time.now
     word = type_check(word)
     @words_queue = [word]
@@ -110,3 +110,18 @@ class Social_Network
 end
 
 p Social_Network.new('dict/dictionary.txt').size("LISTY")
+# p "The size of the social network of #{word} is #{size}"
+
+# "Runtime: 20.614713 seconds"
+# "The size of the social network of LISTY is 51710"
+# [Finished in 20.986s]
+
+# Half Dictionary
+# "Runtime: 7.982526 seconds"
+# "The size of the social network of LISTY is 22741"
+# [Finished in 8.215s]
+
+# Quarter Dict
+# "Runtime: 3.54621 seconds"
+# "The size of the social network of LISTY is 11008"
+# [Finished in 3.722s]

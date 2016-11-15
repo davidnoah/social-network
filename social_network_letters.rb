@@ -5,14 +5,14 @@ class Social_Network
   attr_accessor :count, :dictionary
 
   def initialize(dictionary)
-    @prefixes = Hash.new(0)
+    @letters = Hash.new
     @dictionary = build_dictionary(dictionary)
     @alpha = ("A".."Z").to_a
+    @count = 1
   end
 
   def size(word)
     starttime = Time.now
-    @count = 1
     @words_queue = [word]
     dictionary[word] = true
     until @words_queue.empty?
@@ -25,7 +25,6 @@ class Social_Network
 
   def count_friends(current_word)
     current_word.length.times do |idx|
-      break if @prefixes[current_word[0...idx]] == 1
       check_deletion(idx, current_word)
       check_addition(idx, current_word)
       check_substitution(idx, current_word)
@@ -40,7 +39,7 @@ class Social_Network
 
   def check_addition(index, current_word)
     length = current_word.length
-    alpha.each do |letter|
+    @letters[index].each do |letter|
       temp = current_word[0, index] + letter + current_word[index...length]
       check_dictionary(temp)
 
@@ -53,7 +52,7 @@ class Social_Network
 
   def check_substitution(index, current_word)
     length = current_word.length
-    alpha.each do |letter|
+    @letters[index].each do |letter|
       temp = current_word[0...index] + letter + current_word[(index + 1)...length]
       check_dictionary(temp)
     end
@@ -71,22 +70,39 @@ class Social_Network
     hash = {}
     File.readlines(dictionary).each do |line|
       word = line.chomp
-      add_prefixes(word)
+      assess_letters(word)
       hash[word] = false
     end
     hash
   end
 
-  def add_prefixes(word)
+  def assess_letters(word)
     word.length.times do |index|
-      @prefixes[word[0..index]] += 1
+      if @letters[index]
+        @letters[index].add(word[index])
+      else
+        @letters[index] = Set.new.add(word[index])
+      end
     end
   end
 
 end
 
 word = "LISTY"
-network = Social_Network.new('dict/dictionary.txt')
+size = Social_Network.new('dict/half_dictionary.txt').size(word)
+p "The size of the social network of #{word} is #{size}"
 
-p network.size(word)
-# p "The size of the social network of #{word} is #{size}"
+# Full Dict
+# "Runtime: 20.580995 seconds"
+# "The size of the social network of LISTY is 51710"
+# [Finished in 21.616s]
+
+# Half Dictionary
+# "Runtime: 7.900541 seconds"
+# "The size of the social network of LISTY is 22741"
+# [Finished in 8.454s]
+
+# Quarter Dictionary
+# "Runtime: 3.49913 seconds"
+# "The size of the social network of LISTY is 11008"
+# [Finished in 3.847s]
