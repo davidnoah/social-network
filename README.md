@@ -2,12 +2,12 @@
 
 This program counts the size of the social network of the word LISTY in the dictionary provided.
 
-"Friends" are defined as two words with an edit distance of "1" according to [Levenshtein's distance](http://en.wikipedia.org/wiki/Levenshtein_distance). The entire social network is then defined as all the friends of your original word, plus the number of friends each friend has until we have exhausted our social network.
+"Friends" are defined as two words with an edit distance of "1" according to [Levenshtein's distance](http://en.wikipedia.org/wiki/Levenshtein_distance). The entire social network is then defined as the number of friends your original word has, plus the number of friends each friend has and so on...
 
 Running the File
 -------
 1. Clone this repository
-2. Run 'ruby social_network.rb'
+2. Run 'ruby run_listy.rb'
 
 Approach
 -------

@@ -1,11 +1,8 @@
-require 'set'
-
 class Social_Network
   attr_reader :word, :dictionary, :alpha
   attr_accessor :count
 
   def initialize(dictionary)
-    # Type check to account for a .txt file or an Array
     @dictionary = build_dictionary(dictionary)
     @alpha = ("A".."Z").to_a
   end
@@ -16,7 +13,7 @@ class Social_Network
   # queue once they are found.
   def size(word)
     @count = 1
-    word = type_check(word)
+    word = normalize(word)
     @words_queue = [word]
     dictionary[word] = true
     until @words_queue.empty?
@@ -26,7 +23,7 @@ class Social_Network
   end
 
   # Ensures the word only contains letters, has a length, and is all uppercase.
-  def type_check(word)
+  def normalize(word)
     raise "Your word must only contain letters" unless /^[a-zA-Z]+$/ === word
     word.upcase
   end
@@ -105,7 +102,3 @@ class Social_Network
   end
 
 end
-
-word = "LISTY"
-size = Social_Network.new('dict/dictionary.txt').size(word)
-p "The size of the social network of #{word} is #{size}"

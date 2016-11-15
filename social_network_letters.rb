@@ -11,7 +11,7 @@ class Social_Network
   end
 
   def size(word)
-    word = type_check(word)
+    word = normalize(word)
     @count = 1
     @words_queue = [word]
     dictionary[word] = true
@@ -21,7 +21,7 @@ class Social_Network
     @count
   end
 
-  def type_check(word)
+  def normalize(word)
     raise "Your word must only contain letters" unless /^[a-zA-Z]+$/ === word
     word.upcase
   end
@@ -100,7 +100,3 @@ class Social_Network
   end
 
 end
-
-word = "LISTY"
-size = Social_Network.new('dict/dictionary.txt').size(word)
-p "The size of the social network of #{word} is #{size}"
