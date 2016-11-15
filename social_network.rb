@@ -1,5 +1,5 @@
 class Social_Network
-  attr_reader :word, :dictionary, :alpha
+  attr_reader :dictionary, :alpha
   attr_accessor :count
 
   def initialize(dictionary)
