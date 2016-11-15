@@ -60,19 +60,19 @@ After further assessment of my algorithm, I came up with two optimizations that 
   My first idea was to create a hash of all the prefixes within the dictionary paired with the number of words that contain that prefix. For example, if we used out "very_small_test_dictionary.txt", our prefixes hash would look like:
 
   ```Ruby
-  @prefixes = {"F"=>2, "FI"=>2, "FIS"=>2, "FIST"=>2, "FISTS"=>1, "L"=>10, "LI"=>9, "LIS"=>2, "LIST"=>2, "LISTS"=>1, "LISTY"=>1, "LIT"=>7, "LITA"=>4 ...
+  @prefixes = {"F"=>2, "FI"=>2, "FIS"=>2, "FIST"=>2, "FISTS"=>1, "L"=>10, "LI"=>9, "LIS"=>2 ...
   ```
 
   The idea was that if I came across a word with a prefix value of 1, I knew that I could stop assessing that particular word because there were no other possible combinations to assess. Running this algorithm initially takes longer to run because of the construction of the prefix hash, but we will start saving a around 1 second for each consecutive function call.
 
   ```
     Without Prefix Optimization
-    Initial setup and first function call runtime: 21.01s
-    Three consecutive function calls thereafter: 20.68s, 20.30s, 20.69
+    Setup + Function Call: 21.01s
+    Three Function Calls Post-Setup: 20.68s, 20.30s, 20.69s
   ```
 
   ```
     With Prefix Optimization
     Setup + Function Call: 22.16s
-    Three Function Calls Post-Setup: 19.14s, 19.66, 19.44
+    Three Function Calls Post-Setup: 19.14s, 19.66s, 19.44s
   ```
