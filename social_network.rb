@@ -1,6 +1,8 @@
+require 'set'
+
 class Social_Network
-  attr_reader :dictionary, :alpha
-  attr_accessor :count
+  attr_reader :word, :dictionary, :alpha
+  attr_accessor :seen
 
   def initialize(dictionary)
     @dictionary = build_dictionary(dictionary)
@@ -12,14 +14,13 @@ class Social_Network
   # assessed as they are shifted off and "friends" are pushed to the end of the
   # queue once they are found.
   def size(word)
-    @count = 1
     word = normalize(word)
+    @seen = Set.new.add(word)
     @words_queue = [word]
-    dictionary[word] = true
     until @words_queue.empty?
       count_friends(@words_queue.shift)
     end
-    @count
+    @seen.size
   end
 
   # Ensures the word only contains letters, has a length, and is all uppercase.
@@ -76,29 +77,28 @@ class Social_Network
   # so, add the word to our queue, mark it as seen in the dictionary, and increment
   # our count by 1.
   def check_dictionary(temp)
-    if dictionary.has_key?(temp) && dictionary[temp] == false
+    if dictionary.include?(temp) && !@seen.include?(temp)
       @words_queue << temp
-      dictionary[temp] = true
-      @count += 1
+      @seen.add(temp)
     end
   end
 
   # Initializes a hash map and constructs the dictionary to ensure constant
   # lookup. Type checks the input to ensure it's a .txt file or an array
   def build_dictionary(dictionary)
-    hash = Hash.new
+    set = Set.new
     if dictionary.is_a?(String)
       File.readlines(dictionary).each do |line|
-        hash[line.chomp.upcase] = false
+        set.add(line.chomp.upcase)
       end
     elsif dictionary.is_a?(Array)
       dictionary.each do |line|
-        hash[line.chomp.upcase] = false
+        set.add(line.chomp.upcase)
       end
     else
       raise "Your dictionary must be a .txt file or an array"
     end
-    hash
+    set
   end
 
 end

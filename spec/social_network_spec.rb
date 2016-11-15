@@ -25,18 +25,19 @@ describe Social_Network do
       end.to raise_error("Your word must only contain letters")
     end
 
-    it 'returns the correct answer' do
+    it 'can assess multiple word for the same instance' do
       expect(network.size("LIST")).to eq(7)
+      expect(network.size("LISTY")).to eq(5)
     end
   end
 
   describe '#dictionary' do
     it 'can be an array' do
-      expect(Social_Network.new(["hi"]).dictionary["HI"]).to be(false)
+      expect(Social_Network.new(["hi"]).dictionary.include?("HI")).to be(true)
     end
 
     it 'can pass in a .txt file' do
-      expect(Social_Network.new('./dict/very_small_test_dictionary.txt').dictionary["LIT"]).to be(false)
+      expect(Social_Network.new('./dict/very_small_test_dictionary.txt').dictionary.include?("LIT")).to be(true)
     end
 
     it 'raise an error if invalid dictionary is used' do

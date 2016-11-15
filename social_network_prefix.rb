@@ -1,3 +1,5 @@
+require 'set'
+
 class Social_Network
   attr_reader :alpha
   attr_accessor :count, :dictionary
@@ -10,13 +12,12 @@ class Social_Network
 
   def size(word)
     word = normalize(word)
-    @count = 1
+    @seen = Set.new.add(word)
     @words_queue = [word]
-    dictionary[word] = true
     until @words_queue.empty?
       count_friends(@words_queue.shift)
     end
-    @count
+    @seen.size
   end
 
   def normalize(word)
@@ -61,31 +62,30 @@ class Social_Network
   end
 
   def check_dictionary(temp)
-    if dictionary.has_key?(temp) && dictionary[temp] == false
+    if dictionary.include?(temp) && !@seen.include?(temp)
       @words_queue << temp
-      dictionary[temp] = true
-      @count += 1
+      @seen.add(temp)
     end
   end
 
   def build_dictionary(dictionary)
-    hash = {}
+    set = Set.new
     if dictionary.is_a?(String)
       File.readlines(dictionary).each do |line|
         word = line.chomp.upcase
+        set.add(word)
         add_prefixes(word)
-        hash[word] = false
       end
     elsif dictionary.is_a?(Array)
       dictionary.each do |line|
         word = line.chomp.upcase
+        set.add(word)
         add_prefixes(word)
-        hash[word] = false
       end
     else
       raise "Your dictionary must be a .txt file or an array"
     end
-    hash
+    set
   end
 
   def add_prefixes(word)
