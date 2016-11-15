@@ -9,6 +9,8 @@ Running the File
 1. Clone this repository
 2. Run 'ruby run_listy.rb'
 
+Run the tests too! 'rspec spec/social_network_spec.rb'
+
 Approach
 -------
 **Dictionary: Hash map to ensure O(1) lookup.**
