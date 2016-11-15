@@ -98,5 +98,3 @@ class Social_Network
   end
 
 end
-
-p Social_Network.new("./dict/dictionary.txt").size("LISTY")
