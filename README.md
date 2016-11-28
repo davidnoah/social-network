@@ -1,3 +1,5 @@
+TODO: Test and implement optimizations.
+
 ## Social Network for LISTY -- David Noah
 
 This program counts the size of the social network of the word LISTY in the dictionary provided.
